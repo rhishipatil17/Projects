@@ -1,0 +1,29 @@
+# Template for BUILD file
+package(default_visibility = ["//visibility:public"])
+cc_binary(
+    name = "main_app"
+    srcs = ["main.cpp"],
+)
+cc_test(
+    name = "main_test",
+    srcs = ["test_main.cpp"],
+    deps = [
+        "@googletest//:gtest_main",
+    ],
+)
+
+# Build a target for pi
+bazel build //<target_path>:<target> --config=pi
+
+# Build gtest suite for rpi
+bazel build //<target_path>:<test_target> --config=pi
+
+# Run unit tests locally
+bazel test //<target_path>:<test_target>
+
+# Run unit tests and generate coverage report (add --config=pi to generate bin for rpi)
+bazel coverage //<target_path>:<test_target> --combined_report=lcov
+
+# Visualize coverage output in html form (genhtml is available after installing lcov)
+# Output available in: bazel-coverage-html/index.html
+genhtml bazel-out/_coverage/_coverage_report.dat -o bazel-coverage-html

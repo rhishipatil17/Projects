@@ -1,0 +1,10 @@
+module(
+    name = "rimor",
+    version = "1.0.0",
+)
+
+# Fetch GoogleTest dependency via Bzlmod
+bazel_dep(name = "googletest", version = "1.15.2")
+
+#Register ARMv6 cross-compiler toolchain
+register_toolchains("//toolchains/armv6:pi_zero_w_toolchain")

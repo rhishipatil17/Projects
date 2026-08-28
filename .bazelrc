@@ -1,0 +1,2 @@
+# Cross-compile for Pi Zero W when using --config=pi
+build:pi --platforms=//toolchains/armv6:rpi_zero_w_platform
