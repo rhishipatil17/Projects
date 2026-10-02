@@ -12,6 +12,15 @@ cc_test(
     ],
 )
 
+# Template for pigpio library usage
+cc_binary(
+    name = "main_app",
+    srcs = ["main.cpp"],
+    deps = [
+        "@pigpio//:pigpio",
+    ],
+)
+
 # Build a target for pi
 bazel build //<target_path>:<target> --config=pi
 
