@@ -1,0 +1,13 @@
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# ARMv6 cross-compiler (Raspberry Pi 1 / Zero), fetched on first --config=pi_zero_w build
+http_archive(
+    name = "armv6_gcc",
+    urls = [
+        "https://github.com/rhishipatil17/bazel-deps/releases/download/armv6-gcc-14.2.0-v1.0/cross-gcc-14.2.0-pi_0-1.tar.gz",
+        "https://downloads.sourceforge.net/project/raspberry-pi-cross-compilers/Raspberry%20Pi%20GCC%20Cross-Compiler%20Toolchains/Bullseye/GCC%2014.2.0/Raspberry%20Pi%201%2C%20Zero/cross-gcc-14.2.0-pi_0-1.tar.gz",  # fallback
+    ],
+    sha256 = "42659ad21fde9ea9b78e5ada36aa19152ddcd034776260732d39b191ee5a464c",
+    strip_prefix = "cross-pi-gcc-14.2.0-0",
+    build_file = "//toolchain/armv6:armv6_gcc.BUILD",
+)

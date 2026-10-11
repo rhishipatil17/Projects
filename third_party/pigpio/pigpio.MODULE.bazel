@@ -1,0 +1,13 @@
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# pigpio library, pinned to release v79
+http_archive(
+    name = "pigpio",
+    urls = [
+        "https://github.com/rhishipatil17/bazel-deps/releases/download/pigpio-79-v1.0/pigpio-79.tar.gz",
+        "https://github.com/joan2937/pigpio/archive/refs/tags/v79.tar.gz",  # fallback
+    ],
+    sha256 = "c5337c0b7ae888caf0262a6f476af0e2ab67065f7650148a0b21900b8d1eaed7",
+    strip_prefix = "pigpio-79",
+    build_file = "//third_party/pigpio:pigpio.BUILD",
+)
