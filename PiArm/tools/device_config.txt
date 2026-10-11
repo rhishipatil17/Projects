@@ -2,8 +2,8 @@ IP:
  wlan0 192.168.1.14
 
 User:
- rproot
+ root
+ ryzax17996
+ 
+ dev
  rap17996
-
- rpdev
- rpdev299458
