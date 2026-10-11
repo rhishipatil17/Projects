@@ -8,5 +8,7 @@ cc_library(
     name = "pigpio",
     srcs = ["pigpio.c", "command.c"],
     hdrs = ["pigpio.h", "command.h"],
+    # Included by pigpio.c as source text ("custom.cext"), not a normal header
+    textual_hdrs = ["custom.cext"],
     linkopts = ["-pthread"],
 )

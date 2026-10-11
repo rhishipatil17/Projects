@@ -11,3 +11,5 @@ http_archive(
     strip_prefix = "cross-pi-gcc-14.2.0-0",
     build_file = "//toolchain/armv6:armv6_gcc.BUILD",
 )
+
+register_toolchains("//toolchain/armv6:pi_zero_w_toolchain")

@@ -1,17 +1,14 @@
 # --------------------- Global ---------------------
 
-bazel_dep(name = "rules_cc", version = "0.2.4")
-bazel_dep(name = "platforms", version = "1.0.0")
+bazel_dep(name = "rules_cc", version = "0.2.22")
+bazel_dep(name = "platforms", version = "1.1.0")
 
 # Fetch GoogleTest dependency via Bzlmod
-bazel_dep(name = "googletest", version = "1.15.2")
+bazel_dep(name = "googletest", version = "1.18.0.bcr.1")
 
 # ------------------ Dependencies ------------------
-
 include("//toolchain/armv6:armv6.MODULE.bazel")
+# TODO: enable once the archive is uploaded and x86_64.MODULE.bazel is filled in
+# include("//toolchain/x86_64:x86_64.MODULE.bazel")
+
 include("//third_party/pigpio:pigpio.MODULE.bazel")
-
-# --------------- Register Toolchains ---------------
-
-# Registers every toolchain() target under //toolchain, so new ones are picked up automatically
-register_toolchains("//toolchain/...")

@@ -1,3 +1,20 @@
+# Downloaded by bazel under externals/platforms/os/BUILD
+# os/BUILD
+# constraint_setting(name = "os")
+# constraint_value(name = "linux", constraint_setting = ":os")
+# constraint_value(name = "windows", constraint_setting = ":os")
+# ...                                   # 23 OS values in total
+
+# Downloaded by bazel under externals/platforms/cpu/BUILD
+# cpu/BUILD
+# constraint_setting(name = "cpu")
+# constraint_value(name = "x86_64",  constraint_setting = ":cpu")
+# constraint_value(name = "aarch64", constraint_setting = ":cpu")   # 64-bit ARM
+# constraint_value(name = "armv7",   constraint_setting = ":cpu")
+# constraint_value(name = "armv6-m", constraint_setting = ":cpu")   # Cortex-M, not the Pi
+# alias(name = "arm", actual = ":aarch32")                          # generic 32-bit ARM
+# ...                                   # 28 CPU values in total
+
 package(default_visibility = ["//visibility:public"])
 
 # ARM architecture revision. @platforms only has the generic cpu:arm (armv6-m is Cortex-M),
