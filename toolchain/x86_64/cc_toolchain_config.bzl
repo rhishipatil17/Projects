@@ -3,18 +3,15 @@ load("@rules_cc//cc:cc_toolchain_config_lib.bzl", "feature", "flag_group", "flag
 load("@rules_cc//cc/common:cc_common.bzl", "cc_common")
 load("@rules_cc//cc/toolchains:cc_toolchain_config_info.bzl", "CcToolchainConfigInfo")
 
-# TODO: check the tool prefix and header dirs against the uploaded archive:
-#   ls bin/
-#   echo | bin/<prefix>g++ -no-canonical-prefixes -xc++ -E -v - 2>&1 | sed -n '/#include <...>/,/End of/p'
-# Values below assume a Bootlin x86-64 glibc toolchain.
-
 # Paths are relative to the @x86_64_gcc repo root, where this config is instantiated
 def _impl(ctx):
+    # gcc and cpp point at the real binaries (.br_real), not Bootlin's toolchain-wrapper:
+    # the wrapper passes gcc an absolute --sysroot, which fails Bazel's include check
     tool_paths = [
-        tool_path(name = "gcc", path = "bin/x86_64-buildroot-linux-gnu-gcc"),
+        tool_path(name = "gcc", path = "bin/x86_64-buildroot-linux-gnu-gcc.br_real"),
         tool_path(name = "ld", path = "bin/x86_64-buildroot-linux-gnu-ld"),
         tool_path(name = "ar", path = "bin/x86_64-buildroot-linux-gnu-ar"),
-        tool_path(name = "cpp", path = "bin/x86_64-buildroot-linux-gnu-cpp"),
+        tool_path(name = "cpp", path = "bin/x86_64-buildroot-linux-gnu-cpp.br_real"),
         tool_path(name = "gcov", path = "bin/x86_64-buildroot-linux-gnu-gcov"),
         tool_path(name = "nm", path = "bin/x86_64-buildroot-linux-gnu-nm"),
         tool_path(name = "objdump", path = "bin/x86_64-buildroot-linux-gnu-objdump"),
@@ -27,6 +24,10 @@ def _impl(ctx):
         "%crosstool_top%/lib/gcc/x86_64-buildroot-linux-gnu",  # gcc's own headers (stddef.h, ...)
         "%crosstool_top%/x86_64-buildroot-linux-gnu",  # libstdc++ and the glibc sysroot headers
     ]
+
+    # glibc headers and libraries, relative to the execroot (e.g. external/+http_archive+x86_64_gcc/...).
+    # Bazel passes this as --sysroot to every compile and link, replacing what the wrapper did.
+    sysroot = ctx.label.workspace_root + "/x86_64-buildroot-linux-gnu/sysroot"
 
     compile_flags = feature(
         name = "compile_flags",
@@ -66,6 +67,7 @@ def _impl(ctx):
         abi_libc_version = "unknown",
         tool_paths = tool_paths,
         cxx_builtin_include_directories = builtin_include_dirs,
+        builtin_sysroot = sysroot,
         features = [compile_flags, default_link_flags],
     )
 

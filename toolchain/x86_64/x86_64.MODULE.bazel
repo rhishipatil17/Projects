@@ -4,11 +4,18 @@ http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "ht
 http_archive(
     name = "x86_64_gcc",
     urls = [
-        # TODO: "https://github.com/rhishipatil17/bazel-deps/releases/download/<tag>/<file>",
+        "https://github.com/rhishipatil17/bazel-deps/releases/download/x86_64-gcc-15.3.0-v1.0/x86-64--glibc--stable-2026.08-1.tar.xz",
+        "https://toolchains.bootlin.com/downloads/releases/toolchains/x86-64/tarballs/x86-64--glibc--stable-2026.08-1.tar.xz",  # fallback
     ],
-    sha256 = "",  # TODO
-    strip_prefix = "",  # TODO: tar -tf <file> | head -1
+    sha256 = "cde893afab04ac7dcd15c46aac214ff550441b982536124c88a71146a0eeedd3",
+    strip_prefix = "x86-64--glibc--stable-2026.08-1",
     build_file = "//toolchain/x86_64:x86_64_gcc.BUILD",
+    # libc.so / libm.so are linker scripts naming /lib64/... absolutely. ld only maps those into the
+    # sysroot when the script's real path is inside it, which Bazel's symlinked sandbox breaks.
+    # A leading "=" tells ld the path is always relative to --sysroot.
+    patch_cmds = [
+        "sed -i -E 's#([ (])/(usr/)?lib64/#\\1=/\\2lib64/#g' x86_64-buildroot-linux-gnu/sysroot/usr/lib/libc.so x86_64-buildroot-linux-gnu/sysroot/usr/lib/libm.so",
+    ],
 )
 
 register_toolchains("//toolchain/x86_64:x86_64_toolchain")

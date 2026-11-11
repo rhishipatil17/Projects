@@ -8,7 +8,6 @@ bazel_dep(name = "googletest", version = "1.18.0.bcr.1")
 
 # ------------------ Dependencies ------------------
 include("//toolchain/armv6:armv6.MODULE.bazel")
-# TODO: enable once the archive is uploaded and x86_64.MODULE.bazel is filled in
-# include("//toolchain/x86_64:x86_64.MODULE.bazel")
+include("//toolchain/x86_64:x86_64.MODULE.bazel")
 
 include("//third_party/pigpio:pigpio.MODULE.bazel")

@@ -10,6 +10,7 @@ filegroup(
         "@googletest//:gtest",
         "@googletest//:gtest_main",
         "@pigpio//:pigpio",
+        "@x86_64_gcc//:all_files",
     ],
     tags = ["manual"],
 )
